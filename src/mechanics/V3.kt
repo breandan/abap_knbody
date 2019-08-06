@@ -1,17 +1,20 @@
 package mechanics
 
+import kotlin.math.PI
+import kotlin.math.sqrt
+
 
 class V3(var x:Double=0.0, var y:Double=0.0, var z:Double=0.0){
     operator fun minus(a : V3) = V3(x - a.x, y - a.y,z - a.z)
     operator fun plus(a : V3) = V3(x + a.x, y + a.y,z + a.z)
     operator fun times(dt: Double) = V3(x*dt,y*dt,z*dt)
-    operator fun rem(a:V3) = Math.sqrt((x-a.x)*(x-a.x) + (y-a.y)*(y-a.y) + (z-a.z)*(z-a.z))
+    operator fun rem(a:V3) = sqrt((x-a.x)*(x-a.x) + (y-a.y)*(y-a.y) + (z-a.z)*(z-a.z))
     operator fun times(a:V3) = V3(y * a.z - z * a.y, z * a.x - x * a.z, x * a.y - y * a.x)
 
     fun length2() = x*x + y*y + z*z
-    fun length() = Math.sqrt(x*x+y*y+z*z)
+    fun length() = sqrt(x*x+y*y+z*z)
     infix fun dot(d: V3) = x*d.x + y * d.y + z*d.z
-    infix fun dist(d: V3) = Math.sqrt((x -d.x)*(x -d.x)+(y -d.y)*(y -d.y)+(z -d.z)*(z -d.z))
+    infix fun dist(d: V3) = sqrt((x -d.x)*(x -d.x)+(y -d.y)*(y -d.y)+(z -d.z)*(z -d.z))
     infix fun dist2(d: V3) = ((x -d.x)*(x -d.x)+(y -d.y)*(y -d.y)+(z -d.z)*(z -d.z))
 
     override fun toString() = "($x,$y,$z)"
@@ -63,12 +66,12 @@ fun main(args:Array<String>){
 }
 
 private fun getSpherePoints(n: Int, theta0:Double): List<V3> {
-    var ret = mutableListOf<V3>()
+    val ret = mutableListOf<V3>()
     var theta = theta0
-    var increment = Math.PI * (3.0 - Math.sqrt(5.0));
+    val increment = PI * (3.0 - sqrt(5.0))
     for(i in 0 until n){
         //var z = ((i+0.5)  / n - 0.5) * 2
-        //var r = Math.sqrt(1-z*z)
+        //var r = sqrt(1-z*z)
         theta += increment
     }
     return ret

@@ -2,8 +2,6 @@ package display
 
 import mechanics.Matrix
 import mechanics.Matrix3
-import mechanics.newMatrix
-import toBitmap
 import java.awt.BorderLayout
 import javax.swing.ImageIcon
 import javax.swing.JFrame
@@ -19,7 +17,7 @@ fun show(m : Matrix) {
 
 //3. Create components and put them in the frame.
 //...create emptyLabel...
-    var img = m.toBitmap()
+    val img = m.toBitmap()
     val picLabel = JLabel(ImageIcon(img))
     frame.contentPane.removeAll()
     frame.contentPane.add(picLabel, BorderLayout.CENTER)
@@ -40,7 +38,7 @@ fun show(m : Matrix3) {
 
 //3. Create components and put them in the frame.
 //...create emptyLabel...
-    var img = m.toBitmap()
+    val img = m.toBitmap()
     val picLabel = JLabel(ImageIcon(img))
     frame.contentPane.removeAll()
     frame.contentPane.add(picLabel, BorderLayout.CENTER)

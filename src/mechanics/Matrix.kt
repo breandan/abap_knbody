@@ -1,5 +1,7 @@
 package mechanics
 
+import kotlin.math.*
+
 /*
 
     The things this needs to be able to do:
@@ -35,14 +37,11 @@ fun newMatrix3(w: Int, h: Int) = Matrix3(newMatrix(w,h), newMatrix(w,h), newMatr
 
 class Matrix(val a : DoubleArray, val s0 : Int, val s1 : Int){
     var initRow = 0
-    fun init(vararg a: Double){
-        var j = 0
-        for(a2 in a){
+    fun init(vararg a: Double) {
+      for((j, a2) in a.withIndex())
             this[initRow,j] = a2
-            j++
-        }
-        initRow++
 
+      initRow++
     }
 
     /*
@@ -56,7 +55,7 @@ class Matrix(val a : DoubleArray, val s0 : Int, val s1 : Int){
     operator fun get(i0 : Int, i1 : Int) = a[i1 + i0 * s1]
 
     operator fun set(i0 : Int, i1 : Int, v: Double) {
-        var i = i1 + i0 * s1
+        val i = i1 + i0 * s1
         a[i] = v
     }
 
@@ -161,7 +160,7 @@ class Matrix(val a : DoubleArray, val s0 : Int, val s1 : Int){
     }
 */
     fun drawLine(getx: Double, gety: Double, getx1: Double, gety1: Double, str: Double) {
-        val steps = Math.ceil(Math.max(Math.abs(getx1 - getx), Math.abs(gety1-gety))).toInt()
+        val steps = ceil(max(abs(getx1 - getx), abs(gety1-gety))).toInt()
         var x = getx
         var y= gety
         val dx = ( getx1 - getx) / steps
@@ -186,13 +185,13 @@ class Matrix(val a : DoubleArray, val s0 : Int, val s1 : Int){
         }
     }
     fun drawCircle(x: Double, y: Double, rad: Double, str:Double) {
-        val steps = 1 + Math.floor(rad * 6.5).toInt()
+        val steps = 1 + floor(rad * 6.5).toInt()
         var xl = -1
         var yl = -1
         for(i in 0..steps){
-            val theta = 2 * Math.PI * i / steps.toDouble()
-            val x2 = (x + rad * Math.sin(theta)).toInt()
-            val y2 = (y + rad * Math.cos(theta)).toInt()
+            val theta = 2 * PI * i / steps.toDouble()
+            val x2 = (x + rad * sin(theta)).toInt()
+            val y2 = (y + rad * cos(theta)).toInt()
             if (x2!=xl || y2!=yl) {
                 drawPoint(x2, y2,str)
             }
@@ -201,8 +200,8 @@ class Matrix(val a : DoubleArray, val s0 : Int, val s1 : Int){
         }
     }
     fun fillCircle(x: Double, y: Double, rad: Double, str:Double) {
-        for(i in Math.floor(x-rad).toInt() until Math.ceil(x+rad).toInt()){
-            for(j in Math.floor(y-rad).toInt() until Math.ceil(y+rad).toInt()){
+        for(i in floor(x-rad).toInt() until ceil(x+rad).toInt()){
+            for(j in floor(y-rad).toInt() until ceil(y+rad).toInt()){
                 val dx = x - i
                 val dy = y - j
                 val d = dx*dx+dy*dy

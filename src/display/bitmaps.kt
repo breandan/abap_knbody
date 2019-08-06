@@ -1,10 +1,13 @@
+package display
+
 import mechanics.Matrix
 import mechanics.Matrix3
 import java.awt.image.BufferedImage
 import java.awt.image.DataBufferInt
+import kotlin.math.exp
 
 fun Matrix.toBitmap(): BufferedImage {
-    var m = this
+    val m = this
     val img = BufferedImage(m.s0, m.s1, BufferedImage.TYPE_INT_ARGB)
     val srcBuffer = img.raster.dataBuffer as DataBufferInt
     //Grab the graphics object off the image
@@ -17,13 +20,13 @@ fun Matrix.toBitmap(): BufferedImage {
             var g: Int
             var b: Int
             if (v > 0) {
-                r = (255 * (1 - Math.exp(-v / 10))).toInt()
-                g = (255 * (1 - Math.exp(-v))).toInt()
-                b = (255 * (1 - Math.exp(-v / 0.1))).toInt()
+                r = (255 * (1 - exp(-v / 10))).toInt()
+                g = (255 * (1 - exp(-v))).toInt()
+                b = (255 * (1 - exp(-v / 0.1))).toInt()
             } else {
-                b = (255 * (1 - Math.exp(v / 10))).toInt()
-                g = (255 * (1 - Math.exp(v))).toInt()
-                r = (255 * (1 - Math.exp(v / 0.1))).toInt()
+                b = (255 * (1 - exp(v / 10))).toInt()
+                g = (255 * (1 - exp(v))).toInt()
+                r = (255 * (1 - exp(v / 0.1))).toInt()
             }
 
             if (!v.isFinite()) {
@@ -38,7 +41,7 @@ fun Matrix.toBitmap(): BufferedImage {
 
 
 fun Matrix3.toBitmap(): BufferedImage {
-    var m = this
+    val m = this
     val img = BufferedImage(m.red.s0, m.red.s1, BufferedImage.TYPE_INT_ARGB)
     val srcBuffer = img.raster.dataBuffer as DataBufferInt
     //Grab the graphics object off the image
@@ -53,9 +56,9 @@ fun Matrix3.toBitmap(): BufferedImage {
             var r: Int
             var g: Int
             var b: Int
-                r = (255 * (1 - Math.exp(-vr))).toInt()
-                g = (255 * (1 - Math.exp(-vg))).toInt()
-                b = (255 * (1 - Math.exp(-vb))).toInt()
+                r = (255 * (1 - exp(-vr))).toInt()
+                g = (255 * (1 - exp(-vg))).toInt()
+                b = (255 * (1 - exp(-vb))).toInt()
 
 
             if (!vr.isFinite()) {

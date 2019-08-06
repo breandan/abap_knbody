@@ -2,10 +2,10 @@ package engine
 
 import display.show
 import mechanics.*
-import toBitmap
+import display.toBitmap
 import java.io.File
 import javax.imageio.ImageIO
-
+import kotlin.math.*
 
 
 class State(val p:Array<P>, val m1:Double, val radius:Double){
@@ -20,17 +20,17 @@ class State(val p:Array<P>, val m1:Double, val radius:Double){
         for (i in p){
             val x = n/2 + n * i.p.x/scale
             val y = n/2 + n * i.p.y/scale
-            val t= Math.sqrt(i.t)*1e-2
+            val t= sqrt(i.t) *1e-2
 
             val s = 0.10 * (5000.0 / p.size)
             ret.fillCircle(x,y,5.0,
-                    Math.min(4.0,0.1+t)*s,
-                    Math.min(4.0,0.1+t*0.08)*s,
-                    Math.min(4.0,0.1+t*0.006)*s)
+                    min(4.0, 0.1+t) *s,
+                    min(4.0, 0.1+t*0.08) *s,
+                    min(4.0,0.1+t*0.006)*s)
             ret.fillCircle(x,y,1.5,
-                    Math.min(15.0,0.1+t)*s*6.0,
-                    Math.min(15.0,0.1+t*0.08)*s*6.0,
-                    Math.min(15.0, 0.1+t*0.006)*s*6.0)
+                    min(15.0,0.1+t)*s*6.0,
+                    min(15.0,0.1+t*0.08)*s*6.0,
+                    min(15.0, 0.1+t*0.006)*s*6.0)
 
         }
         return ret
@@ -117,14 +117,14 @@ fun pairInteraction(p1: P, p2: P, dt: Double, radius:Double, m1:Double) {
     val dz = p2p.z-p1p.z
 
     // This is the distance between the particles.
-    val d = Math.sqrt(dx*dx+dy*dy+dz*dz + 0.0001 * radius*radius)
+    val d = sqrt(dx*dx+dy*dy+dz*dz + 0.0001 * radius*radius)
 
     // gravitational force (or will be when multiplied by (dx,dy,dz))
     val f2 = dt * (
             GRAV_CONST * m1 / (d*d*d)
             )
     // add in an outward force for particles too close.
-    val g = f2 + dt * Math.min(0.0,d - 2.00*radius)/(radius*d) * RESTORING_FORCE
+    val g = f2 + dt * min(0.0,d - 2.00*radius)/(radius*d) * RESTORING_FORCE
 
     // now convert to a force.
     val fx = dx * g
@@ -198,7 +198,7 @@ fun newSim(n :Int, outdir:String?, show:Boolean) : State {
     val earthRadius = 6e6
 
     // in metres, the radius of each point.
-    val ptRadius = 0.9 * earthRadius / Math.pow(nEarth.toDouble(),0.3333)
+    val ptRadius = 0.9 * earthRadius / nEarth.toDouble().pow(0.3333)
 
     // in kg, the mass of one particle
     val mass1 = EARTH_MASS / nEarth
@@ -209,7 +209,7 @@ fun newSim(n :Int, outdir:String?, show:Boolean) : State {
     // a list of particles for planet Theia. Note that the following line is an entire simulation.
     val p2 = getPlanet(
             nOther,
-            earthRadius * Math.pow(nOther/nEarth.toDouble(),0.333),
+            earthRadius * (nOther / nEarth.toDouble()).pow(0.333),
             mass1,
             ptRadius,
             outdir,
@@ -222,7 +222,7 @@ fun newSim(n :Int, outdir:String?, show:Boolean) : State {
     // The speed of the collision. Note that the first part is the escape velocity
     // which is the speed they would be moving at if they started stationary far apart.
     // The last term is an additional energy from their relative orbital speeds.
-    val speed = Math.sqrt(2 * GRAV_CONST * EARTH_MASS / distApart + 0.5 * 3.5e3*3.5e3)
+    val speed = sqrt(2 * GRAV_CONST * EARTH_MASS / distApart + 0.5 * 3.5e3*3.5e3)
 
     // The angle of attack at the start of the simulation.
     val theta = 0.55
@@ -230,8 +230,8 @@ fun newSim(n :Int, outdir:String?, show:Boolean) : State {
     // Now update the 2nd planet according to the decisions above.
     p2.forEach{
         it.p.x+=distApart
-        it.v.x-=speed * Math.cos(theta)
-        it.v.y+=speed * Math.sin(theta)
+        it.v.x-=speed * cos(theta)
+        it.v.y+=speed * sin(theta)
     }
 
     // now add both planets to the main particle list.
@@ -269,7 +269,7 @@ fun newSimpleSim(n :Int) : State {
         val v = p * V3(0.0,0.0,w)
         pts.add(P(p, v,0.0))
     }
-    return State(pts.toTypedArray(), 6.4e24/n,6e6 / Math.pow(n.toDouble(),0.3333))
+    return State(pts.toTypedArray(), 6.4e24/n,6e6 / n.toDouble().pow(0.3333))
 }
 
 // This gets a particle list for a planet.

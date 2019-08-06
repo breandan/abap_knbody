@@ -1,6 +1,7 @@
 package engine
 
 import mechanics.V3
+import kotlin.math.sqrt
 
 const val MAX_WIDTH = 100000.0
 
@@ -142,7 +143,7 @@ class Tree(val width:Double, val radius:Double, val p: Array<P>, val mass1:Doubl
         val dx = cm.x - i.p.x
         val dy = cm.y - i.p.y
         val dz = cm.z - i.p.z
-        val d = Math.sqrt(dx * dx + dy * dy + dz * dz)
+        val d = sqrt(dx * dx + dy * dy + dz * dz)
         val f = dt * GRAV_CONST * mass / (d * d * d)
         i.v.x += f * dx
         i.v.y += f * dy
